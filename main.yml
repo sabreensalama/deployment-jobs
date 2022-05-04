@@ -1,0 +1,7 @@
+- name: Exercise for setting up a web server in an EC using ci / cd circleci
+  hosts: all
+  user: ubuntu
+  become: yes
+
+  roles:
+    - setup

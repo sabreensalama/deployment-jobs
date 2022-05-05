@@ -43,7 +43,10 @@ jobs:
               --filters "Name=tag:Project,Values=udacity" \
               --output text >> inventory.txt \
               --region us-east-1
-            cat inventory.txt
+      - save_cache:
+          key: inventory-key
+          paths:
+            - inventory.txt
 
   configure_infstruceture:
     docker:
@@ -56,10 +59,13 @@ jobs:
           name: "install ansible"
           command: |
             apk add --update ansible
-            cat inventory.txt
+      - restore_cache:
+          keys:
+            - inventory-key
       - run:
           name: Run Playbook and Configure server
           command: |
+            cat inventory.txt
             ansible-playbook -i inventory.txt main-remote.yml
 
   smoke_test:

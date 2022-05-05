@@ -96,12 +96,12 @@ workflows:
   my-workflow:
     jobs:
       - create_infstructure
-      - update_inventory_with_ec2_ips:
-          requires:
-            - "create_infstructure"
-      - configure_infstruceture:
-          requires:
-            - "update_inventory_with_ec2_ips"
-      - smoke_test:
-          requires:
-            - "configure_infstruceture"
+      # - update_inventory_with_ec2_ips:
+      #     requires:
+      #       - "create_infstructure"
+      # - configure_infstruceture:
+      #     requires:
+      #       - "update_inventory_with_ec2_ips"
+      # - smoke_test:
+      #     requires:
+      #       - "configure_infstruceture"

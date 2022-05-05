@@ -29,13 +29,14 @@ jobs:
               --template-file template.yml \
               --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
               --region us-east-1
+  
   update_inventory_with_ec2_ips:
     docker:
       - image: amazon/aws-cli
     steps:
       - checkout
       - run:
-          name: Create Cloudformation Stack
+          name: update inventory.txt with ec2s ips
           command: |
             aws cloudformation describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress'\
@@ -49,14 +50,13 @@ jobs:
       - image: python:3.8-alpine
     steps:
       - checkout
-      - command: |
-          cat inventory.txt
       - add_ssh_keys:
           fingerprints: ["28:a0:ed:36:4f:7e:21:cc:cb:ab:80:dc:86:95:b6:c1"]
       - run:
           name: "install ansible"
           command: |
             apk add --update ansible
+            cat inventory.txt
       - run:
           name: Run Playbook and Configure server
           command: |

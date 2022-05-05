@@ -43,6 +43,7 @@ jobs:
               --filters "Name=tag:Project,Values=udacity" \
               --output text >> inventory.txt \
               --region us-east-1
+            cat inventory.txt
       - save_cache:
           key: inventory-key
           paths:

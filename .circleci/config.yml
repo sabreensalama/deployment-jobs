@@ -24,11 +24,24 @@ jobs:
       - checkout
       - run:
           name: Create Cloudformation Stack
-
           command: |
             aws cloudformation deploy \
               --template-file template.yml \
               --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+              --region us-east-1
+  update_inventory_with_ec2_ips:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Create Cloudformation Stack
+          command: |
+            aws cloudformation describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress'\
+              --filters "Name=tag:Project,Values=udacity" \
+              --output text >> inventory.txt \
+              --profile udacity_nano \
               --region us-east-1
 
   configure_infstruceture:
@@ -36,6 +49,8 @@ jobs:
       - image: python:3.8-alpine
     steps:
       - checkout
+      - command: |
+          cat inventory.txt
       - add_ssh_keys:
           fingerprints: ["28:a0:ed:36:4f:7e:21:cc:cb:ab:80:dc:86:95:b6:c1"]
       - run:
@@ -70,6 +85,7 @@ jobs:
 workflows:
   my-workflow:
     jobs:
-      # - create_infstructure
-      # - configure_infstruceture
+      - create_infstructure
+      - update_inventory_with_ec2_ips
+      - configure_infstruceture
       - smoke_test

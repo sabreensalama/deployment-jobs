@@ -19,5 +19,9 @@ Resources:
       KeyName: newkeypair
       ImageId: 'ami-09d56f8956ab235b3' 
       InstanceType: t2.micro
+      Tags: 
+        - 
+          Key: "Project"
+          Value: "udacity"
   
   

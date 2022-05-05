@@ -42,7 +42,6 @@ jobs:
               --query 'Reservations[*].Instances[*].PublicIpAddress'\
               --filters "Name=tag:Project,Values=udacity" \
               --output text >> inventory.txt \
-              --profile udacity_nano \
               --region us-east-1
 
   configure_infstruceture:

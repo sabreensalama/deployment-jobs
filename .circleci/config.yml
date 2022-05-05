@@ -51,7 +51,7 @@ jobs:
 
   configure_infstruceture:
     docker:
-      - image: python:3.8-alpine
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
       - add_ssh_keys:
@@ -61,6 +61,7 @@ jobs:
           command: |
             apk add --update ansible
             ansible --version
+            mkdir ~/.ansible/cp
             ls ~/.ansible
       - restore_cache:
           keys:

@@ -45,7 +45,7 @@ jobs:
               --region us-east-1
             cat inventory.txt
       - save_cache:
-          key: inventory-key-${CIRCLE_WORKFLOW_ID:0:5}
+          key: inventory-key-${CIRCLE_SHA1}
           paths:
             - inventory.txt
 
@@ -62,7 +62,7 @@ jobs:
             apk add --update ansible
       - restore_cache:
           keys:
-            - inventory-key-${CIRCLE_WORKFLOW_ID:0:5}
+            - inventory-key-${CIRCLE_SHA1}
       - run:
           name: Run Playbook and Configure server
           command: |

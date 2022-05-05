@@ -15,30 +15,30 @@
   apt:
     autoremove: yes
 
-- name: "install nodejs && npm"
-  become: true
-  apt:
-    name: ["nodejs", "npm"]
-    state: latest
-    update_cache: yes
+# - name: "install nodejs && npm"
+#   become: true
+#   apt:
+#     name: ["nodejs", "npm"]
+#     state: latest
+#     update_cache: yes
 
-- name: "install pm2"
-  npm:
-    name: pm2
-    global: yes
+# - name: "install pm2"
+#   npm:
+#     name: pm2
+#     global: yes
 
-- name: "Creates web dirctory"
-  file:
-    path: ~/web
-    state: directory
+# - name: "Creates web dirctory"
+#   file:
+#     path: ~/web
+#     state: directory
 
-- name: "copy files"  
-  copy:
-    src: index.js
-    dest: ~/web/index.js
-    backup: yes
+# - name: "copy files"  
+#   copy:
+#     src: index.js
+#     dest: ~/web/index.js
+#     backup: yes
 
 
-- name: "start application"
-  become: true
-  command: 'pm2 start ~/web/index.js -f'
+# - name: "start application"
+#   become: true
+#   command: 'pm2 start ~/web/index.js -f'

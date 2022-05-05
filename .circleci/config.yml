@@ -60,6 +60,8 @@ jobs:
           name: "install ansible"
           command: |
             apk add --update ansible
+            ansible --version
+            ls ~/.ansible
       - restore_cache:
           keys:
             - inventory-key-${CIRCLE_SHA1}

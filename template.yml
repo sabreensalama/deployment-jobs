@@ -4,11 +4,15 @@ Resources:
   InstanceSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
-      GroupDescription: Enable SSH access via port 22
+      GroupDescription: Enable SSH access via port 22 && 3000
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: '22'
           ToPort: '22'
+          CidrIp: 0.0.0.0/0 
+        - IpProtocol: tcp
+          FromPort: '3000'
+          ToPort: '3000'
           CidrIp: 0.0.0.0/0 
   
   EC2Instance:

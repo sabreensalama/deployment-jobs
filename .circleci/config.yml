@@ -105,7 +105,24 @@ jobs:
       - run:
           name: copy index.html to Bucket
           command: |
-            aws s3 sync index.html s3://mybucket-${CIRCLE_WORKFLOW_ID:0:7} --delete
+            ls
+            aws s3 sync ./index.html s3://mybucket-${CIRCLE_WORKFLOW_ID:0:7} --delete
+
+  get_last_deployment_id:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Fetch and save the old pipeline ID (bucket name) responsible for the last release.
+          command: |
+            aws cloudformation \
+            list-exports --query "Exports[?Name==\`PipelineID\`].Value" \
+            --no-paginate --output text > ~/textfile.txt
+      - persist_to_workspace:
+          root: ~/
+          paths: 
+            - textfile.txt
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -123,3 +140,6 @@ workflows:
       #     requires:
       #       - "configure_infstruceture"
       - create_and_deploy_front_end
+      - get_last_deployment_id:
+          requires:
+            - "create_and_deploy_front_end"

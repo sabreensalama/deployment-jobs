@@ -55,7 +55,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["28:a0:ed:36:4f:7e:21:cc:cb:ab:80:dc:86:95:b6:c1"]
+          fingerprints: ["44:15:3d:14:fb:2a:01:30:79:7e:39:35:97:8a:4e:90"]
       - run:
           name: "install ansible"
           command: |
@@ -157,22 +157,22 @@ jobs:
 workflows:
   my-workflow:
     jobs:
-      # - create_infstructure
-      # - update_inventory_with_ec2_ips:
-      #     requires:
-      #       - "create_infstructure"
-      # - configure_infstruceture:
-      #     requires:
-      #       - "update_inventory_with_ec2_ips"
-      # - smoke_test:
-      #     requires:
-      #       - "configure_infstruceture"
-      - create_and_deploy_front_end
-      - promote_to_production:
-          requires: 
-            - create_and_deploy_front_end
-      - get_last_deployment_id
-      - clean_up_old_front_end:
+      - create_infstructure
+      - update_inventory_with_ec2_ips:
           requires:
-            - get_last_deployment_id
-            - promote_to_production
+            - "create_infstructure"
+      - configure_infstruceture:
+          requires:
+            - "update_inventory_with_ec2_ips"
+      - smoke_test:
+          requires:
+            - "configure_infstruceture"
+#       - create_and_deploy_front_end
+#       - promote_to_production:
+#           requires: 
+#             - create_and_deploy_front_end
+#       - get_last_deployment_id
+#       - clean_up_old_front_end:
+#           requires:
+#             - get_last_deployment_id
+#             - promote_to_production

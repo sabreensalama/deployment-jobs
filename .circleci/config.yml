@@ -61,8 +61,7 @@ jobs:
           command: |
             apk add --update ansible
             ansible --version
-            mkdir ~/.ansible/cp
-            ls ~/.ansible
+            pip3 install awscli
       - restore_cache:
           keys:
             - inventory-key-${CIRCLE_SHA1}

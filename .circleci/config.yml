@@ -68,7 +68,7 @@ jobs:
       - run:
           name: Run Playbook and Configure server
           command: |
-             aws ec2 describe-instances \
+            aws ec2 describe-instances \
               --query 'Reservations[*].Instances[*].PublicIpAddress'\
               --filters "Name=tag:Project,Values=udacity" \
               --output text >> inventory.txt \

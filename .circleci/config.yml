@@ -62,12 +62,17 @@ jobs:
             apk add --update ansible
             ansible --version
             pip3 install awscli
-      - restore_cache:
-          keys:
-            - inventory-key-${CIRCLE_SHA1}
+#       - restore_cache:
+#           keys:
+#             - inventory-key-${CIRCLE_SHA1}
       - run:
           name: Run Playbook and Configure server
           command: |
+             aws ec2 describe-instances \
+              --query 'Reservations[*].Instances[*].PublicIpAddress'\
+              --filters "Name=tag:Project,Values=udacity" \
+              --output text >> inventory.txt \
+              --region us-east-1
             cat inventory.txt
             ansible-playbook -i inventory.txt main-remote.yml
 
